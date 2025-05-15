@@ -3,9 +3,10 @@
  *
  * Licensed under the MIT license.
  * https://opensource.org/license/mit/
- * 
+ *
  * Copyright 2023, WANNABEDEV
  * https://wannabedev.io
+ * Modified for portfolio use
  */
 
  class Slider {
@@ -150,12 +151,38 @@
   }
 
   _bindEvents() {
-    ["goNext", "goPrev", "_navClickHandler"].forEach((method) => {
+    ["goNext", "goPrev", "_navClickHandler", "_portfolioItemClickHandler"].forEach((method) => {
       this[method] = this[method].bind(this);
     });
     this.nextButton.addEventListener("click", this.goNext);
     this.prevButton.addEventListener("click", this.goPrev);
     this.navBar.addEventListener("click", this._navClickHandler);
+
+    // Add click event listeners to portfolio items
+    this.slides.forEach(slide => {
+      const portfolioLink = slide.getAttribute('data-portfolio-url');
+      if (portfolioLink) {
+        slide.addEventListener("click", this._portfolioItemClickHandler);
+        slide.style.cursor = "pointer";
+      }
+    });
+  }
+
+  _portfolioItemClickHandler(e) {
+    // Only navigate if we're not in the middle of a slide animation
+    if (this.isAnimating) return;
+
+    // Get the clicked slide
+    const slide = e.currentTarget;
+    const portfolioUrl = slide.getAttribute('data-portfolio-url');
+
+    // Check if the click was on a control element (arrows, nav dots)
+    const isControlElement = e.target.closest('.slider__controls, .slider__nav-bar');
+
+    // Only navigate if we have a URL and the click wasn't on a control element
+    if (portfolioUrl && !isControlElement) {
+      window.open(portfolioUrl, '_blank');
+    }
   }
 }
 
