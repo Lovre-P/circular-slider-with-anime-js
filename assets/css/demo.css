@@ -252,7 +252,7 @@ body #wannabedev {
 .slider-list__item .more__element .content .excerpt {
   position: relative;
   display: block;
-  max-width: 280px;
+  max-width: 320px;
   font-family: 'Open Sans Condensed', sans-serif;
   font-size: 16px;
   line-height: 24px;
